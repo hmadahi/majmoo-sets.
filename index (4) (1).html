@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مجموعه‌ها – ریاضی نهم</title>
+<style>
+  /* ===== متغیرهای رنگی ===== */
+  :root{
+    --bg:#f3f6fb; --text:#1f2937; --muted:#6b7280;
+    --blue:#2563eb; --blue-l:#e8f0ff;
+    --green:#059669; --green-l:#e3f8ef;
+    --orange:#ea580c; --orange-l:#fff0e3;
+    --purple:#7c3aed; --purple-l:#f0e9ff;
+    --red:#dc2626; --red-l:#fee8e8;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:Vazirmatn,Tahoma,"Segoe UI",sans-serif; line-height:1.8;
+  }
+  header{
+    background:linear-gradient(135deg,#2563eb,#7c3aed); color:#fff;
+    padding:28px 16px; text-align:center;
+  }
+  header h1{margin:0;font-size:1.7rem}
+  header p{margin:6px 0 0;opacity:.9}
+  main{max-width:960px;margin:20px auto;padding:0 14px;display:grid;gap:20px}
+  .card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.07);border-top:6px solid}
+  .card.single{border-color:var(--blue)}
+  .card.multi{border-color:var(--green)}
+  .card h2{margin:0 0 12px;font-size:1.3rem}
+  .single h2{color:var(--blue)} .multi h2{color:var(--green)}
+  label{display:block;font-weight:bold;margin:10px 0 4px}
+  input[type=text]{
+    width:100%;padding:10px 12px;border:2px solid #d1d5db;border-radius:10px;
+    font:inherit;direction:rtl;text-align:right;
+  }
+  input[type=text]:focus{outline:none;border-color:var(--blue)}
+  .hint{font-size:.85rem;color:var(--muted)}
+  .btns{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+  button{
+    border:none;border-radius:10px;padding:9px 16px;font:inherit;color:#fff;
+    cursor:pointer;transition:transform .1s,opacity .2s;
+  }
+  button:hover{opacity:.88} button:active{transform:scale(.96)}
+  .b-blue{background:var(--blue)} .b-orange{background:var(--orange)}
+  .b-green{background:var(--green)} .b-purple{background:var(--purple)}
+  .box{border-radius:12px;padding:12px 14px;margin-top:10px;word-break:break-word}
+  .info{background:var(--blue-l)} .ok{background:var(--green-l)}
+  .warn{background:var(--orange-l)} .err{background:var(--red-l);color:var(--red)}
+  .res{background:var(--purple-l)}
+  .math{direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:"Cambria Math","Times New Roman",serif;font-size:1.1rem}
+  .subs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .subs span{background:#fff;border:1px solid #c4b5fd;border-radius:8px;padding:2px 10px}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .result-line{margin:4px 0}
+  footer{text-align:center;color:var(--muted);padding:20px;font-size:.85rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>🧮 ابزار تعاملی مجموعه‌ها</h1>
+  <p>فصل اول ریاضی پایه نهم</p>
+</header>
+
+<main>
+  <!-- ===== بخش الف: تک‌مجموعه ===== -->
+  <section class="card single">
+    <h2>تحلیل یک مجموعه</h2>
+    <label for="setA1">اعضای مجموعه A</label>
+    <input type="text" id="setA1" placeholder="مثال: 1, 2, a, 4  یا  {۱، ۲، ۳}">
+    <div class="hint">اعضا را با کاما (,) یا ویرگول فارسی (،) جدا کنید.</div>
+    <div class="btns">
+      <button class="b-blue" onclick="analyzeSet()">تحلیل مجموعه</button>
+      <button class="b-purple" onclick="showSubsets()">نمایش همه زیرمجموعه‌ها</button>
+    </div>
+    <div id="out1"></div>
+
+    <label for="member">بررسی عضویت (x)</label>
+    <input type="text" id="member" placeholder="مثلاً 2">
+    <div class="btns"><button class="b-orange" onclick="checkMember()">بررسی x ∈ A</button></div>
+    <div id="outMember"></div>
+  </section>
+
+  <!-- ===== بخش ب: چند مجموعه ===== -->
+  <section class="card multi">
+    <h2>محاسبات روی چند مجموعه</h2>
+    <div class="row">
+      <div><label for="A">مجموعه A</label><input type="text" id="A" placeholder="1, 2, 3"></div>
+      <div><label for="B">مجموعه B</label><input type="text" id="B" placeholder="2, 3, 4"></div>
+      <div><label for="C">مجموعه C (اختیاری)</label><input type="text" id="C" placeholder="3, 4, 5"></div>
+    </div>
+    <div class="btns">
+      <button class="b-blue" onclick="calc('union')">اجتماع ∪</button>
+      <button class="b-green" onclick="calc('inter')">اشتراک ∩</button>
+      <button class="b-orange" onclick="calc('diff')">تفاضل −</button>
+      <button class="b-purple" onclick="calc('sym')">تفاضل متقارن Δ</button>
+    </div>
+    <div id="out2"></div>
+  </section>
+</main>
+<footer>ساخته‌شده برای یادگیری مجموعه‌ها ✨ | سازنده: مجتبی</footer>
+
+<script>
+/* ================= توابع کمکی ================= */
+
+/** تبدیل ارقام فارسی و عربی به انگلیسی */
+function normalizeDigits(s){
+  return s.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+          .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+          .replace(/٫/g, '.').replace(/ي/g, 'ی').replace(/ك/g, 'ک');
+}
+
+/** تبدیل متن ورودی به آرایه‌ای از اعضای یکتا. در صورت نامعتبر بودن null برمی‌گرداند */
+function parseSet(text){
+  let s = normalizeDigits(text).trim();
+  // حذف پیشوند نام مجموعه مثل «A =» یا «B:» که کاربر ممکن است وارد کند
+  s = s.replace(/^[^\s{},،=:]+\s*[=:]\s*/, '');
+  if(s === '') return null;
+  // بررسی تعادل آکولادها
+  let d = 0;
+  for(const ch of s){ if(ch==='{') d++; if(ch==='}') d--; if(d<0) return null; }
+  if(d !== 0) return null;
+  // حذف آکولاد بیرونی (فقط اگر آکولاد اول با آخرین بسته شود)
+  if(s.startsWith('{') && s.endsWith('}') && outerWraps(s)) s = s.slice(1,-1);
+  s = s.trim();
+  if(s === '' || s === '∅') return [];  // مجموعه تهی
+  // جداسازی با کاما، فقط در عمق صفر (برای اعضای تو در تو)
+  const items = []; let cur = ''; d = 0;
+  for(const ch of s){
+    if(ch==='{') d++;
+    if(ch==='}') d--;
+    if(d===0 && (ch===',' || ch==='،')){ items.push(cur); cur=''; }
+    else cur += ch;
+  }
+  items.push(cur);
+  return [...new Set(items.map(x=>canon(x.trim())).filter(x => x !== ''))];
+}
+
+/** آیا اولین { با آخرین } جفت است؟ */
+function outerWraps(s){
+  let d = 0;
+  for(let i=0;i<s.length;i++){
+    if(s[i]==='{') d++;
+    if(s[i]==='}') d--;
+    if(d===0 && i<s.length-1) return false;
+  }
+  return true;
+}
+
+/** یکسان‌سازی عضو: اعداد (01 → 1) و مجموعه‌های تو در تو */
+function canon(x){
+  if(/^[+-]?\d+(\.\d+)?$/.test(x)) return String(Number(x));
+  if(x.startsWith('{') && x.endsWith('}') && outerWraps(x)){
+    const inner = parseSet(x);
+    return inner ? fmt(inner) : x;
+  }
+  if(x === '{}') return '∅';
+  return x;
+}
+
+/** مرتب‌سازی: ابتدا اعداد (صعودی) سپس سایر موارد (الفبایی) */
+function sortItems(arr){
+  const isNum = x => /^[+-]?\d+(\.\d+)?$/.test(x);
+  return [...arr].sort((a,b)=>{
+    const na=isNum(a), nb=isNum(b);
+    if(na&&nb) return Number(a)-Number(b);
+    if(na) return -1;
+    if(nb) return 1;
+    return a.localeCompare(b);
+  });
+}
+
+/** قالب‌بندی مجموعه به شکل {a, b} یا ∅ */
+function fmt(arr){
+  return arr.length ? '{' + sortItems(arr).join(', ') + '}' : '∅';
+}
+const m = t => `<span class="math">${escapeHtml(t)}</span>`;
+function escapeHtml(t){
+  return t.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+function show(id, html, cls){
+  document.getElementById(id).innerHTML = `<div class="box ${cls}">${html}</div>`;
+}
+
+/** خواندن مجموعه از فیلد؛ در خطا پیام می‌دهد */
+function readSet(inputId, outId, name, optional=false){
+  const v = document.getElementById(inputId).value;
+  if(optional && v.trim()==='') return undefined;
+  const r = parseSet(v);
+  if(r === null){
+    show(outId, v.trim()===''
+      ? `😊 لطفاً اعضای مجموعه ${name} را وارد کنید (برای مجموعه تهی، ∅ بنویسید).`
+      : `⚠️ ورودی مجموعه ${name} معتبر نیست. آکولادها را بررسی کنید.`, 'err');
+    return null;
+  }
+  return r;
+}
+
+/* ================= عملیات مجموعه‌ای ================= */
+const union = (...sets) => [...new Set(sets.flat())];
+const inter = (a,...rest) => rest.reduce((acc,s)=>acc.filter(x=>s.includes(x)), a);
+const diff  = (a,b) => a.filter(x=>!b.includes(x));
+const sym   = (a,b) => union(diff(a,b), diff(b,a));
+
+/** تولید همه زیرمجموعه‌ها با ماسک بیتی */
+function allSubsets(arr){
+  const res=[];
+  for(let mask=0; mask < (1<<arr.length); mask++){
+    res.push(arr.filter((_,i)=> mask & (1<<i)));
+  }
+  return res.sort((x,y)=>x.length-y.length);
+}
+
+/* ================= بخش الف ================= */
+function analyzeSet(){
+  const A = readSet('setA1','out1','A'); if(A===null) return;
+  show('out1',
+    `<div class="result-line">A = ${m(fmt(A))}</div>
+     <div class="result-line">تعداد اعضا: n(A) = <b>${A.length}</b></div>
+     <div class="result-line">تعداد زیرمجموعه‌ها: 2<sup>${A.length}</sup> = <b>${2**A.length}</b></div>`,'info');
+}
+
+function showSubsets(){
+  const A = readSet('setA1','out1','A'); if(A===null) return;
+  const n = A.length;
+  if(n > 12){ show('out1','⛔ برای جلوگیری از کندی مرورگر، بیش از ۱۲ عضو پشتیبانی نمی‌شود.','err'); return; }
+  const subs = allSubsets(sortItems(A));
+  let html = '';
+  if(n > 5) html += `<div class="box warn">⚠️ مجموعه ${n} عضو دارد و ${2**n} زیرمجموعه خواهد داشت؛ نمایش ممکن است طولانی باشد.</div>`;
+  html += `<div>همه ${2**n} زیرمجموعه‌ی ${m(fmt(A))}:</div><div class="subs">` +
+          subs.map(s=>`<span>${m(fmt(s))}</span>`).join('') + '</div>';
+  document.getElementById('out1').innerHTML = `<div class="box res">${html}</div>`;
+}
+
+function checkMember(){
+  const A = readSet('setA1','outMember','A'); if(A===null) return;
+  const raw = normalizeDigits(document.getElementById('member').value).trim();
+  if(raw===''){ show('outMember','😊 لطفاً مقداری برای بررسی وارد کنید.','err'); return; }
+  const yes = A.includes(raw);
+  show('outMember', yes
+    ? `✅ ${m(raw+' ∈ A')} — ${escapeHtml(raw)} عضو A است.`
+    : `❌ ${m(raw+' ∉ A')} — ${escapeHtml(raw)} عضو A نیست.`, yes?'ok':'warn');
+}
+
+/* ================= بخش ب ================= */
+function calc(type){
+  const A = readSet('A','out2','A'); if(A===null) return;
+  const B = readSet('B','out2','B'); if(B===null) return;
+  const C = readSet('C','out2','C',true); if(C===null) return;
+  const line = (label,val)=>`<div class="result-line">${m(label+' = '+fmt(val))}</div>`;
+  let h='';
+  switch(type){
+    case 'union':
+      h += line('A ∪ B', union(A,B));
+      if(C) h += line('A ∪ B ∪ C', union(A,B,C)); break;
+    case 'inter':
+      h += line('A ∩ B', inter(A,B));
+      if(C) h += line('A ∩ B ∩ C', inter(A,B,C)); break;
+    case 'diff':
+      h += line('A − B', diff(A,B)) + line('B − A', diff(B,A));
+      if(C) h += line('A − C', diff(A,C)) + line('C − A', diff(C,A)); break;
+    case 'sym':
+      h += line('A Δ B', sym(A,B)); break;
+  }
+  show('out2', h, 'res');
+}
+</script>
+</body>
+</html>
